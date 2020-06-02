@@ -1,0 +1,25 @@
+{
+    "name": "seconds-formater",
+    "version": "1.0.2",
+    "description": "Representing seconds in pretty time format",
+    "main": "index.js",
+    "keywords": [
+        "seconds",
+        "format",
+        "convert",
+        "time"
+    ],
+    "author": "Bojan Mazej <bojan.mazej@gmail.com>",
+    "license": "ISC",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bojangles-m/seconds-formater.git"
+    },
+    "bugs": {
+        "url": "https://github.com/bojangles-m/seconds-formater/issues"
+    },
+    "homepage": "https://github.com/bojangles-m/seconds-formater#readme"
+}
