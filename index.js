@@ -139,11 +139,7 @@ const SecondsFormater = (function () {
     let isNegative = false;
 
     const init = (sec) => {
-        seconds = Number(sec);
-
-        if (isNaN(seconds)) {
-            throw new TypeError('Parameters have Invalid value!');
-        }
+        seconds = isNaN(sec) ? 0 : parseInt(sec);
 
         isNegative = false;
         if (seconds < 0) {
