@@ -21,7 +21,7 @@ $ yarn add seconds-formater
 Import into the script
 
 ```js
-var sf = require('format-duration');
+var sf = require('seconds-formater');
 ```
 
 Default format is: HH:MM:SS, change it if you want different output

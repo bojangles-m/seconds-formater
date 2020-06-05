@@ -1,6 +1,6 @@
 {
     "name": "seconds-formater",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Representing seconds in pretty time format",
     "main": "index.js",
     "keywords": [
