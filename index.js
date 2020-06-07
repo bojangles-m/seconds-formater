@@ -1,4 +1,11 @@
-const SecondsFormater = (function () {
+//  Concern v1.1.4
+//  https://github.com/bojangles-m/seconds-formater
+//  (c) 2020-2020 Bojan Mazej
+//  License: ISC
+
+(function (factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? (module.exports = factory()) : null;
+})(function () {
     /**
      * Add a leading zero to a number.
      * @param {Number} num
@@ -38,6 +45,21 @@ const SecondsFormater = (function () {
     };
 
     /**
+     * The presentation format is changed after this call for every convert that follows
+     * @param {String} format - presentation format
+     */
+    const changePresentationFormat = (format) => {
+        if (typeof format === 'undefined' || typeof format !== 'string' || format.toString().length === 0) return;
+
+        if (format === 'reset') {
+            presentInFormat = defaultFormat;
+            return;
+        }
+
+        presentInFormat = format;
+    };
+
+    /**
      * Format the seconds into pretty format
      * @param {String} f - Presentation format of the seconds
      */
@@ -48,12 +70,12 @@ const SecondsFormater = (function () {
             h: /HH|H/,
             d: /DD|D/,
         };
-        const defaultFormat = 'HH:MM:SS';
 
-        let stringToFormat =
-            typeof f === 'undefined' || typeof f !== 'string' || f.toString().length === 0
-                ? defaultFormat
-                : f.toString();
+        // set the presentation format
+        _presentInFormat = presentInFormat;
+
+        // set the format on the value of passed argument
+        if (typeof f !== 'undefined' && typeof f === 'string' && f.toString().length > 0) _presentInFormat = f;
 
         /**
          * Raplace matched string wit number and adding leading zero if necessary
@@ -112,20 +134,20 @@ const SecondsFormater = (function () {
          *      [MM:SS]       | 12345 => 205:45
          *      [SS]          | 12345 => 12345
          */
-        let formatedString = stringToFormat;
-        if (stringToFormat.search(pattern.s) !== -1) {
-            if (stringToFormat.search(pattern.m) === -1) {
+        if (_presentInFormat.search(pattern.s) !== -1) {
+            if (_presentInFormat.search(pattern.m) === -1) {
                 duration.s[0] = duration.s[1];
             } else {
-                if (stringToFormat.search(pattern.h) === -1) {
+                if (_presentInFormat.search(pattern.h) === -1) {
                     duration.m[0] = duration.m[1];
                 } else {
-                    if (stringToFormat.search(pattern.d) === -1) duration.h[0] = duration.h[1];
+                    if (_presentInFormat.search(pattern.d) === -1) duration.h[0] = duration.h[1];
                 }
             }
         }
 
         // Format every unit
+        let formatedString = _presentInFormat;
         formatedString = replaceSeconds(formatedString, duration.s[0]);
         formatedString = replaceMinutes(formatedString, duration.m[0]);
         formatedString = replaceHours(formatedString, duration.h[0]);
@@ -138,7 +160,11 @@ const SecondsFormater = (function () {
 
     let isNegative = false;
 
-    const init = (sec) => {
+    // Format of
+    const defaultFormat = 'HH:MM:SS';
+    let presentInFormat = defaultFormat;
+
+    const convert = (sec) => {
         seconds = isNaN(sec) ? 0 : parseInt(sec);
 
         isNegative = false;
@@ -155,8 +181,8 @@ const SecondsFormater = (function () {
     };
 
     return {
-        convert: init,
+        __proto__: null,
+        convert: convert,
+        change: changePresentationFormat,
     };
-})();
-
-module.exports = SecondsFormater;
+});

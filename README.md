@@ -2,15 +2,9 @@
 
 Convert a number in seconds to a formated duration string.
 
+Note: The documentation uses yarn commands, but npm will also work. You can learn about Yarn [here](https://classic.yarnpkg.com/en).
+
 ## Install
-
-Via [npm](http://npmjs.com):
-
-```sh
-$ npm install seconds-formater
-```
-
-Via [Yarn](http://bower.io):
 
 ```sh
 $ yarn add seconds-formater
@@ -22,6 +16,9 @@ Import into the script
 
 ```js
 var sf = require('seconds-formater');
+
+// OR
+import sf from 'seconds-formater';
 ```
 
 Default format is: HH:MM:SS, change it if you want different output
@@ -34,7 +31,22 @@ sf.convert(9518).format(); // 02:38:38
 sf.convert(119518).format(); // 33:11:58
 ```
 
-Foramt changed
+Presentation format is changed after this call for every convert that follows
+
+```js
+// We change format
+sf.change('-MM:SS');
+sf.convert(1143).format(); // -19:03
+sf.convert(8734).format(); // -145:34
+sf.convert(111).format(); // -01:51
+sf.convert(65423).format(); // -1090:23
+
+// Back to default format
+sf.change('reset');
+sf.convert(783).format(); // 00:13:03
+```
+
+Formated output set for every call.
 
 ```js
 // 7 seconds in different formats
@@ -49,9 +61,10 @@ sf.convert(32).format('S'); // 32
 sf.convert(32).format('SS'); // 32
 sf.convert(32).format('M:SS'); // 0:32
 sf.convert(32).format('-MM:SS'); // -00:32
-sf.convert(-32).format('-MM:SS'); // -00:32
+sf.convert(-32).format('MM:SS'); // -00:32
 
 // Representing 451 seconds in different formats
+sf.convert(451).format(); // 00:07:31
 sf.convert(451).format('S'); // 451
 sf.convert(451).format('SS'); // 451
 sf.convert(451).format('-M:SS'); // -7:31
@@ -64,13 +77,14 @@ sf.convert(-1518).format('H:MM:SS'); // -0:25:18
 sf.convert(1518).format('HH:MM:SS'); // 00:25:18
 
 // Representing 9518 seconds in different formats
+sf.convert(9518).format(); // 02:38:38
 sf.convert(9518).format('M:S'); // 158:38
 sf.convert(9518).format('M:SS'); // 158:38
 sf.convert(9518).format('MM:SS'); // 158:38
 sf.convert(9518).format('-H:MM:SS'); // -2:38:38
 sf.convert(-9518).format('H:MM:SS'); // -2:38:38
 sf.convert(9518).format('HH:MM:SS'); // 02:38:38
-sf.convert(9518).format('DD:HH:MM:SS'); // 00:2:38:38
+sf.convert(9518).format('DD:HH:MM:SS'); // 00:02:38:38
 
 // Representing 119518 seconds in different formats
 sf.convert(119518).format('S'); // 119518
@@ -78,7 +92,7 @@ sf.convert(119518).format('M:S'); // 1991:58
 sf.convert(119518).format('-M:SS'); // -1991:58
 sf.convert(119518).format('MM:SS'); // 1991:58
 sf.convert(-119518).format('H:MM:SS'); // -33:11:58
-sf.convert(119518).format('HH:MM:SS'); // 33:11:58
+sf.convert(119518).format(); // 33:11:58
 sf.convert(119518).format('DD:HH:MM:SS'); // 01:09:11:58
 sf.convert(119518).format('D:HH:MM:SS'); // 1:09:11:58
 

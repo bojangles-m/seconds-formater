@@ -12,7 +12,7 @@
     "author": "Bojan Mazej <bojan.mazej@gmail.com>",
     "license": "ISC",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest"
     },
     "repository": {
         "type": "git",
@@ -21,5 +21,8 @@
     "bugs": {
         "url": "https://github.com/bojangles-m/seconds-formater/issues"
     },
-    "homepage": "https://github.com/bojangles-m/seconds-formater#readme"
+    "homepage": "https://github.com/bojangles-m/seconds-formater#readme",
+    "devDependencies": {
+        "jest": "^26.0.1"
+    }
 }
