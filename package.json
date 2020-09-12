@@ -1,28 +1,28 @@
 {
-    "name": "seconds-formater",
-    "version": "1.1.0",
-    "description": "Representing seconds in pretty time format",
-    "main": "index.js",
-    "keywords": [
-        "seconds",
-        "format",
-        "convert",
-        "time"
-    ],
-    "author": "Bojan Mazej <bojan.mazej@gmail.com>",
-    "license": "ISC",
-    "scripts": {
-        "test": "jest"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/bojangles-m/seconds-formater.git"
-    },
-    "bugs": {
-        "url": "https://github.com/bojangles-m/seconds-formater/issues"
-    },
-    "homepage": "https://github.com/bojangles-m/seconds-formater#readme",
-    "devDependencies": {
-        "jest": "^26.0.1"
-    }
+  "name": "seconds-formater",
+  "version": "1.1.0",
+  "description": "Representing seconds in pretty time format",
+  "main": "index.js",
+  "keywords": [
+    "seconds",
+    "format",
+    "convert",
+    "time"
+  ],
+  "author": "Bojan Mazej <bojan.mazej@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bojangles-m/seconds-formater.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bojangles-m/seconds-formater/issues"
+  },
+  "homepage": "https://github.com/bojangles-m/seconds-formater#readme",
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
 }
