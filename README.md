@@ -1,12 +1,13 @@
 # Seconds Formater
 
-Convert a number in seconds to a formated duration string.
-
-Note: The documentation uses yarn commands, but npm will also work. You can learn about Yarn [here](https://classic.yarnpkg.com/en).
+Convert seconds into a formatted string from days to months to years.
 
 ## Install
 
-```sh
+```js
+$ npm i seconds-formater
+
+// OR
 $ yarn add seconds-formater
 ```
 
@@ -29,6 +30,8 @@ sf.convert(451).format(); // 00:07:31
 sf.convert(1518).format(); // 0:25:18
 sf.convert(9518).format(); // 02:38:38
 sf.convert(119518).format(); // 33:11:58
+sf.convert(3159318).format(); // 877:35:18
+sf.convert(73159318).format(); // 20322:01:58
 ```
 
 Presentation format is changed after this call for every convert that follows
@@ -42,11 +45,11 @@ sf.convert(111).format(); // -01:51
 sf.convert(65423).format(); // -1090:23
 
 // Back to default format
-sf.change('reset');
+sf.reset();
 sf.convert(783).format(); // 00:13:03
 ```
 
-Formated output set for every call.
+Formatted output set for every call.
 
 ```js
 // 7 seconds in different formats
@@ -96,15 +99,23 @@ sf.convert(119518).format(); // 33:11:58
 sf.convert(119518).format('DD:HH:MM:SS'); // 01:09:11:58
 sf.convert(119518).format('D:HH:MM:SS'); // 1:09:11:58
 
-// Thext can also be used
+// It can also be combined with the text
 sf.convert(119518).format('D day HH hours M min S s'); // 1 day 09 hours 11 min 58 s
 sf.convert(119518).format('DDday Hhours Mmin Ss'); // 01day 9hours 11min 58s
 sf.convert(119518).format('Dday Hhours Mmin Ss'); // 1day 9hours 11min 58s
 sf.convert(119518).format('H hours M min S sec'); // 33 hours 11 min 58 sec
 sf.convert(119518).format('M min S sec'); // 1991 min 58 sec
 sf.convert(119518).format('S sec'); // 119518 sec
+
+// Representing 73159318, 3159318 seconds in different formats
+sf.convert(3159318).format('-N:DD:HH:MM:SS'); // -1:06:13:35:18
+sf.convert(3159318).format('N month D days HH hours M min S s'); // 1 month 6 days 13 hours 35 min 18 s
+
+sf.convert(73159318).format('YY:NN:DD:HH:MM:SS'); // 02:04:06:18:01:58
+sf.convert(73159318).format('Y years N month D days HH hours M min S s'); // 2 years 4 month 6 days 18 hours 1 min 58 s
+
 ```
 
 ## License
 
-[ISC](LICENSE.md)
+[MIT](LICENSE)

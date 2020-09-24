@@ -1,4 +1,4 @@
-//  Concern v1.1.0
+//  Concern v1.2.0
 //  https://github.com/bojangles-m/seconds-formater
 //  (c) 2020-2020 Bojan Mazej
 //  License: ISC
@@ -6,6 +6,7 @@
 (function (factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? (module.exports = factory()) : null;
 })(function () {
+    
     /**
      * Add a leading zero to a number.
      * @param {Number} num
@@ -31,32 +32,34 @@
         duration.s = calculate(Math.floor(seconds), 60);
         duration.m = calculate(duration.s[2], 60);
         duration.h = calculate(duration.m[2], 24);
-        duration.d = calculate(duration.h[2], 365);
+        duration.d = calculate(duration.h[2], 30);
+        duration.n = calculate(duration.d[2], 12);
+        duration.y = [duration.n[2]];
     };
 
     /**
      * Convert base units (milliseconds) to this unit.
-     * @param {Number} n - Number of base units (miliseconds) to be converted.
+     * @param {Number} n - Number of base units (milliseconds) to be converted.
      * @param {Number} m - The number by which to multiply the unit to obtain its equivalent in the base unit (milliseconds).
-     * @returns {[Number, Number, [Number]} - The remainder after dividing base unit, Divided number, The transfer ot be divided in next step.
+     * @returns {Array} [] - array of three numbers
+     *      [
+     *          Number = The remainder after dividing base unit
+     *          Number = Divided number
+     *          Number = Dividing transfer in the next step
+     *      ]
      */
-    const calculate = (n, m) => {
-        return [Math.floor(n % m), n, Math.floor(n / m)];
-    };
+    const calculate = (n, m) => [Math.floor(n % m), n, Math.floor(n / m)];
 
     /**
      * The presentation format is changed after this call for every convert that follows
      * @param {String} format - presentation format
      */
     const changePresentationFormat = (format) => {
-        if (typeof format === 'undefined' || typeof format !== 'string' || format.toString().length === 0) return;
-
-        if (format === 'reset') {
-            presentInFormat = defaultFormat;
-            return;
-        }
+        if (!format && (typeof format !== 'string' || format.toString().length === 0)) return;
 
         presentInFormat = format;
+
+        return properties;
     };
 
     /**
@@ -69,6 +72,8 @@
             m: /MM|M/,
             h: /HH|H/,
             d: /DD|D/,
+            n: /NN|N/,
+            y: /YY|Y/,
         };
 
         // set the presentation format
@@ -78,13 +83,13 @@
         if (typeof f !== 'undefined' && typeof f === 'string' && f.toString().length > 0) _presentInFormat = f;
 
         /**
-         * Raplace matched string wit number and adding leading zero if necessary
+         * Replace matched string wit number and adding leading zero if necessary
          * @param {String} str - string to be replaced with number
          * @param {Number} sec - replacement value
-         * @param {Regular expression} regx - matching value in string
+         * @param {Regular expression} regex - matching value in string
          */
-        replace = (str, num, regx) => {
-            const m = str.match(regx);
+        replace = (str, num, regex) => {
+            const m = str.match(regex);
             return m === null ? str : str.replace(m[0], addZero(num, m[0].length));
         };
 
@@ -93,46 +98,52 @@
          * @param {String} str - replace with substring of seconds
          * @param {Number} sec - Replacing found match with seconds
          */
-        replaceSeconds = (str, sec) => {
-            return replace(str, sec, pattern.s);
-        };
+        replaceSeconds = (str, sec) => replace(str, sec, pattern.s);
 
         /**
          * Replacing match with value
          * @param {String} str - replace with substring of minutes
          * @param {Number} min - Replacing found match with minutes
          */
-        replaceMinutes = (str, min) => {
-            return replace(str, min, pattern.m);
-        };
+        replaceMinutes = (str, min) => replace(str, min, pattern.m);
 
         /**
          * Replacing match with value
          * @param {String} str - replace with substring of hours
          * @param {Number} hours - Replacing found match with hours
          */
-        replaceHours = (str, hours) => {
-            return replace(str, hours, pattern.h);
-            // return str.replace(pattern.h, addZero(hours, 2));
-        };
+        replaceHours = (str, hours) => replace(str, hours, pattern.h);
 
         /**
          * Replacing match with value
          * @param {String} str - replace with substring of days
          * @param {Number} days - Replacing found match with days
          */
-        replaceDays = (str, days) => {
-            // return str.replace(pattern.d, addZero(days, 2));
-            return replace(str, days, pattern.d);
-        };
+        replaceDays = (str, days) => replace(str, days, pattern.d);
+
+        /**
+         * Replacing match with value
+         * @param {String} str - replace with substring of months
+         * @param {Number} months - Replacing found match with months
+         */
+        replaceMonths = (str, months) => replace(str, months, pattern.n);
+
+        /**
+         * Replacing match with value
+         * @param {String} str - replace with substring of years
+         * @param {Number} years - Replacing found match with years
+         */
+        replaceYears = (str, years) => replace(str, years, pattern.y);
 
         /**
          * The last Unit is not converted
          * Example:
-         *      [DD:HH:MM:SS] | 12345 => 00:03:25:45
-         *      [HH:MM:SS]    | 12345 => 03:25:45
-         *      [MM:SS]       | 12345 => 205:45
-         *      [SS]          | 12345 => 12345
+         *      [YY:NN:DD:HH:MM:SS] | 12345 => 00:00:00:03:25:45
+         *      [NN:DD:HH:MM:SS]    | 12345 => 00:00:03:25:45
+         *      [DD:HH:MM:SS]       | 12345 => 00:03:25:45
+         *      [HH:MM:SS]          | 12345 => 03:25:45
+         *      [MM:SS]             | 12345 => 205:45
+         *      [SS]                | 12345 => 12345
          */
         if (_presentInFormat.search(pattern.s) !== -1) {
             if (_presentInFormat.search(pattern.m) === -1) {
@@ -141,21 +152,33 @@
                 if (_presentInFormat.search(pattern.h) === -1) {
                     duration.m[0] = duration.m[1];
                 } else {
-                    if (_presentInFormat.search(pattern.d) === -1) duration.h[0] = duration.h[1];
+                    if (_presentInFormat.search(pattern.d) === -1) {
+                        duration.h[0] = duration.h[1];
+                    } else {
+                        if (_presentInFormat.search(pattern.n) === -1) {
+                            duration.d[0] = duration.d[1];
+                        } else {
+                            if (_presentInFormat.search(pattern.y) === -1) {
+                                duration.n[0] = duration.n[1];
+                            }
+                        }
+                    }
                 }
             }
         }
 
         // Format every unit
-        let formatedString = _presentInFormat;
-        formatedString = replaceSeconds(formatedString, duration.s[0]);
-        formatedString = replaceMinutes(formatedString, duration.m[0]);
-        formatedString = replaceHours(formatedString, duration.h[0]);
-        formatedString = replaceDays(formatedString, duration.d[0]);
+        let formattedString = _presentInFormat;
+        formattedString = replaceSeconds(formattedString, duration.s[0]);
+        formattedString = replaceMinutes(formattedString, duration.m[0]);
+        formattedString = replaceHours(formattedString, duration.h[0]);
+        formattedString = replaceDays(formattedString, duration.d[0]);
+        formattedString = replaceMonths(formattedString, duration.n[0]);
+        formattedString = replaceYears(formattedString, duration.y[0]);
 
-        if (isNegative) formatedString = '-' + formatedString;
+        if (isNegative && formattedString[0] !== '-') formattedString = '-' + formattedString;
 
-        return formatedString;
+        return formattedString;
     };
 
     let isNegative = false;
@@ -164,8 +187,15 @@
     const defaultFormat = 'HH:MM:SS';
     let presentInFormat = defaultFormat;
 
-    const convert = (sec) => {
-        seconds = isNaN(sec) ? 0 : parseInt(sec);
+    const resetFormat = () => { 
+        presentInFormat = defaultFormat; 
+        return properties;
+    };
+
+    const isInteger = (num) => /^-?[1-9][0-9]*$/.test(num.toString());
+    
+    const convert = (seconds) => {
+        if(!isInteger(seconds)) seconds = 0;
 
         isNegative = false;
         if (seconds < 0) {
@@ -175,14 +205,16 @@
 
         converter(seconds);
 
-        return {
-            format: format,
-        };
+        return properties;
     };
 
-    return {
+    const properties = {
         __proto__: null,
-        convert: convert,
+        convert,
         change: changePresentationFormat,
+        reset: resetFormat,
+        format,
     };
+
+    return properties;
 });
