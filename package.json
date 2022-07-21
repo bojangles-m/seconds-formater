@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/bojangles-m/seconds-formater#readme",
   "devDependencies": {
-    "jest": "^26.4.2"
+    "jest": "^28.1.3"
   }
 }
