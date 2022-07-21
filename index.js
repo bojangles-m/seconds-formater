@@ -1,4 +1,4 @@
-//  Concern v1.2.0
+//  Concern v1.2.1
 //  https://github.com/bojangles-m/seconds-formater
 //  (c) 2020-2020 Bojan Mazej
 //  License: ISC

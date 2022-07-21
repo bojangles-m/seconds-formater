@@ -1,6 +1,7 @@
 # dependencies
-**/node_modules
-**/coverage
+.vscode/
+/node_modules/
+/coverage/
 
 # misc
 .DS_Store
