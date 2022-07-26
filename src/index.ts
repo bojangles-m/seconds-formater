@@ -1,5 +1,6 @@
-export function sayMyName(name: string): string {
-  return name ? "You're right 👍" : "You're wrong 👎";
-}
+/* (c) Copyright Bojan Mazej, all rights reserved. */
 
-sayMyName("Heisenberg");
+import { SecondsFormatter } from "./SecondsFormatter";
+
+export { SecondsFormatter } from "./SecondsFormatter";
+export default new SecondsFormatter();
