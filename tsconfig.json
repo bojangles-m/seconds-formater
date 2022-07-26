@@ -1,17 +1,17 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    // "sourceMap": true,
-    "target": "ES6",
-    "outDir": "./dist"
-  },
-  "include": ["src", "tests"],
-  "exclude": ["node_modules", "dist"]
+    "compilerOptions": {
+        "strict": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        // "sourceMap": true,
+        "target": "ES6",
+        "outDir": "./dist"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"]
 }
