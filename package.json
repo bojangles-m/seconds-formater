@@ -23,7 +23,7 @@
         "dev": "npx ts-node -T src/index.ts",
         "build": "npm run clear & npm run build:project",
         "build:project": "npx tsc --project tsconfig.build.json",
-        "clear": "rm -rf ./dist",
+        "clear": "rm -rf ./lib",
         "pack": "npm pack"
     },
     "repository": {
