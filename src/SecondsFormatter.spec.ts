@@ -1,4 +1,4 @@
-import sf, { SecondsFormatter } from '../src/index';
+import sf, { SecondsFormatter } from './index';
 
 // 60*60*24*365
 const format = [sf.defaultFormat, 'S', 'SS', 'M:S', '-M:SS', 'MM:SS', 'H:MM:SS'];
