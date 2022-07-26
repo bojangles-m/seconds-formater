@@ -10,7 +10,7 @@
         "noImplicitThis": true,
         "declaration": true,
         "target": "ES5",
-        "outDir": "./dist"
+        "outDir": "./lib"
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist"]
