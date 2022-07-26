@@ -26,9 +26,36 @@ describe('SecondsFormatter Object', () => {
     });
 });
 
+describe('SecondsFormatter::convert - throws error', () => {
+    it('is incorrect value to convert', () => {
+        expect(() => sf.convert(11.1)).toThrow(Error);
+        expect(() => sf.convert(11e23)).toThrow(Error);
+        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
+        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
+        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
+        expect(() => sf.convert(-1234512345123451)).toThrow(Error);
+    });
+
+    it('is correct value to convert', () => {
+        expect(() => sf.convert(-123)).not.toThrow(Error);
+        expect(() => sf.convert(-123451234512345)).not.toThrow(Error);
+        expect(() => sf.convert(123451234512345)).not.toThrow(Error);
+    });
+});
+
+describe('SecondsFormatter::change - throws error', () => {
+    it('is incorrect string to format', () => {
+        expect(() => sf.change('   ')).toThrow(Error);
+    });
+
+    it('is correct string to format', () => {
+        expect(() => sf.change('11e23')).not.toThrow(Error);
+    });
+});
+
 describe('SecondsFormatter - default format', () => {
     it(`represents seconds in default format`, () => {
-        expect(sf.convert(seconds[0]).format()).toEqual(`format: ${sf.defaultFormat} of value ${seconds[0]}`);
+        expect(sf.reset().convert(seconds[0]).format()).toEqual(`format: ${sf.defaultFormat} of value ${seconds[0]}`);
     });
 });
 
@@ -61,22 +88,5 @@ describe('SecondsFormatter - reset to default format', () => {
 
         expect(sf.convert(seconds[0]).format()).toEqual(`format: ${format[0]} of value ${seconds[0]}`);
         expect(sf.convert(seconds[1]).format()).toEqual(`format: ${format[0]} of value ${seconds[1]}`);
-    });
-});
-
-describe('SecondsFormatter::convert - throws error', () => {
-    it('is incorrect value to convert', () => {
-        expect(() => sf.convert(11.1)).toThrow(Error);
-        expect(() => sf.convert(11e23)).toThrow(Error);
-        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
-        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
-        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
-        expect(() => sf.convert(-1234512345123451)).toThrow(Error);
-    });
-
-    it('is correct value to convert', () => {
-        expect(() => sf.convert(-123)).not.toThrow(Error);
-        expect(() => sf.convert(-123451234512345)).not.toThrow(Error);
-        expect(() => sf.convert(123451234512345)).not.toThrow(Error);
     });
 });

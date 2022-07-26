@@ -23,6 +23,10 @@ export class SecondsFormatter implements ISecondsFormatter {
     }
 
     change(format: string): this {
+        if (!format || typeof format !== 'string' || format.replace(/\s/g, '').toString().length === 0) {
+            throw new Error('The provided format is not a string!');
+        }
+
         this.currentFormat = format;
         return this;
     }
@@ -30,8 +34,9 @@ export class SecondsFormatter implements ISecondsFormatter {
     convert(value: number): this {
         value = this.convertToPositiveInteger(value);
 
-        if (!isNumberInSeconds(value) || this.isNumberTooLong(value))
+        if (!isNumberInSeconds(value) || this.isNumberTooLong(value)) {
             throw new Error('The number should be positive or negative integer no longer then 15 chars!');
+        }
 
         this.value = value;
         return this;
