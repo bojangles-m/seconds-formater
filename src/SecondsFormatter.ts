@@ -1,21 +1,36 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import { ISecondsFormatter } from "./types";
+import { ISecondsFormatter } from './types';
 
 export class SecondsFormatter implements ISecondsFormatter {
-  private value: number = 0;
-  private _defaultFormat: string = "HH:MM:SS";
+    private value: number = 0;
+    private _defaultFormat: string = 'HH:MM:SS';
+    private currentFormat: string;
 
-  get defaultFormat() {
-    return this._defaultFormat;
-  }
+    constructor() {
+        this.currentFormat = this.defaultFormat;
+    }
 
-  convert(value: number) {
-    this.value = value;
-    return this;
-  }
+    get defaultFormat() {
+        return this._defaultFormat;
+    }
 
-  format(format?: string) {
-    return `format: ${format ?? this.defaultFormat} of value ${this.value}`;
-  }
+    reset() {
+        this.currentFormat = this.defaultFormat;
+        return this;
+    }
+
+    change(format: string) {
+        this.currentFormat = format;
+        return this;
+    }
+
+    convert(value: number) {
+        this.value = value;
+        return this;
+    }
+
+    format(format?: string) {
+        return `format: ${format ?? this.currentFormat} of value ${this.value}`;
+    }
 }
