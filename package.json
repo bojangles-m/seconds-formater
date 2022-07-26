@@ -17,7 +17,7 @@
   "scripts": {
     "test": "jest",
     "dev": "npx ts-node -T src/index.ts",
-    "build": "npx tsc --project tsconfig.build.json",
+    "build": "npm run clear & npx tsc --project tsconfig.build.json",
     "clear": "rm -rf ./dist"
   },
   "repository": {

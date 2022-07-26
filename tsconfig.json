@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "ES5",
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    // "sourceMap": true,
+    "target": "ES6",
     "outDir": "./dist"
   },
   "include": ["src", "tests"],
