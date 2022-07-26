@@ -8,8 +8,8 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
-        // "sourceMap": true,
-        "target": "ES6",
+        "declaration": true,
+        "target": "ES5",
         "outDir": "./dist"
     },
     "include": ["src"],

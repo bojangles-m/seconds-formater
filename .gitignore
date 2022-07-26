@@ -2,8 +2,10 @@
 .vscode/
 /node_modules/
 /coverage/
+/dist/
 
 # misc
 .DS_Store
 *.log
 *.code-workspace
+*.tgz

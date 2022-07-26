@@ -1,39 +1,45 @@
 {
-  "name": "seconds-formater",
-  "version": "1.2.1",
-  "description": "Representing seconds in pretty time format",
-  "main": "index.js",
-  "keywords": [
-    "seconds",
-    "format",
-    "convert",
-    "time"
-  ],
-  "author": {
-    "name": "Bojan Mazej",
-    "email": "bojan.mazej@gmail.com"
-  },
-  "license": "MIT",
-  "scripts": {
-    "test": "jest",
-    "dev": "npx ts-node -T src/index.ts",
-    "build": "npm run clear & npx tsc --project tsconfig.build.json",
-    "clear": "rm -rf ./dist"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bojangles-m/seconds-formater"
-  },
-  "bugs": {
-    "url": "https://github.com/bojangles-m/seconds-formater/issues"
-  },
-  "homepage": "https://github.com/bojangles-m/seconds-formater#readme",
-  "devDependencies": {
-    "@types/jest": "^28.1.6",
-    "@types/node": "^18.6.1",
-    "jest": "^28.1.3",
-    "ts-jest": "^28.0.7",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
-  }
+    "name": "seconds-formater",
+    "version": "1.2.1",
+    "description": "Representing seconds in pretty time format",
+    "main": "dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist/**"
+    ],
+    "keywords": [
+        "seconds",
+        "format",
+        "convert",
+        "time"
+    ],
+    "author": {
+        "name": "Bojan Mazej",
+        "email": "bojan.mazej@gmail.com"
+    },
+    "license": "MIT",
+    "scripts": {
+        "test": "jest",
+        "dev": "npx ts-node -T src/index.ts",
+        "build": "npm run clear & npm run build:project",
+        "build:project": "npx tsc --project tsconfig.build.json",
+        "clear": "rm -rf ./dist",
+        "pack": "npm pack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bojangles-m/seconds-formater"
+    },
+    "bugs": {
+        "url": "https://github.com/bojangles-m/seconds-formater/issues"
+    },
+    "homepage": "https://github.com/bojangles-m/seconds-formater#readme",
+    "devDependencies": {
+        "@types/jest": "^28.1.6",
+        "@types/node": "^18.6.1",
+        "jest": "^28.1.3",
+        "ts-jest": "^28.0.7",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.7.4"
+    }
 }
