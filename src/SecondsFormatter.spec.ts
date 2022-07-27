@@ -40,6 +40,7 @@ describe('SecondsFormatter::convert - throws error', () => {
         expect(() => sf.convert(-123)).not.toThrow(Error);
         expect(() => sf.convert(-123451234512345)).not.toThrow(Error);
         expect(() => sf.convert(123451234512345)).not.toThrow(Error);
+        expect(() => sf.convert(0)).not.toThrow(Error);
     });
 });
 
