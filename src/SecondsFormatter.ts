@@ -1,7 +1,13 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import { ISecondsFormatter } from './types';
 import { isNumberInSeconds } from './utils';
+
+export interface ISecondsFormatter {
+    convert: (value: number) => this;
+    format: (format?: string) => string;
+    change: (format: string) => this;
+    reset: () => this;
+}
 
 export class SecondsFormatter implements ISecondsFormatter {
     private value: number = 0;
