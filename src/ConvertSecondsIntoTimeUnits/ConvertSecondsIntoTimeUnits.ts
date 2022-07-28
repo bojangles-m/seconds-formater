@@ -8,7 +8,7 @@ export interface IConvertSecondsIntoTimeUnits {
     convert(): this;
 }
 
-export const convertConvertSecondsIntoTimeUnits = (seconds: number): ITimeUnits => {
+export const convertSecondsIntoTimeUnits = (seconds: number): ITimeUnits => {
     const timeUnits = new TimeUnits();
     timeUnits.seconds = remainderDividendQuotient(Math.floor(seconds), 60);
     timeUnits.minutes = remainderDividendQuotient(timeUnits.seconds.quotient, 60);

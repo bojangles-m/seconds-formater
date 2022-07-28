@@ -1,13 +1,39 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import { convertConvertSecondsIntoTimeUnits } from './ConvertSecondsIntoTimeUnits';
-import { timeUnitsDummy1, timeUnitsDummy2, timeUnitsDummy3, timeUnitsDummy4 } from './TimeUnitsDummy';
+import { convertSecondsIntoTimeUnits } from './ConvertSecondsIntoTimeUnits';
+import {
+    timeUnitsDummySeconds,
+    timeUnitsDummyMinutes1,
+    timeUnitsDummyMinutes2,
+    timeUnitsDummyWithHours,
+    timeUnitsDummyWithDays,
+    timeUnitsDummyWithMonths,
+    timeUnitsDummyWithYears,
+} from './TimeUnitsDummy';
 
-describe('convertConvertSecondsIntoTimeUnits', () => {
-    it('convert seconds into time units', () => {
-        expect(convertConvertSecondsIntoTimeUnits(300)).toEqual(timeUnitsDummy1);
-        expect(convertConvertSecondsIntoTimeUnits(764)).toEqual(timeUnitsDummy2);
-        expect(convertConvertSecondsIntoTimeUnits(1203)).toEqual(timeUnitsDummy3);
-        expect(convertConvertSecondsIntoTimeUnits(67834)).toEqual(timeUnitsDummy4);
+describe('convertSecondsIntoTimeUnits', () => {
+    it('convert 50 seconds - max is seconds', () => {
+        expect(convertSecondsIntoTimeUnits(50)).toEqual(timeUnitsDummySeconds);
+    });
+
+    it('convert 764, 1203 seconds - max is minutes', () => {
+        expect(convertSecondsIntoTimeUnits(764)).toEqual(timeUnitsDummyMinutes1);
+        expect(convertSecondsIntoTimeUnits(1203)).toEqual(timeUnitsDummyMinutes2);
+    });
+
+    it('convert 67834 seconds - max is hours', () => {
+        expect(convertSecondsIntoTimeUnits(67834)).toEqual(timeUnitsDummyWithHours);
+    });
+
+    it('convert 119518 seconds - max is days', () => {
+        expect(convertSecondsIntoTimeUnits(119518)).toEqual(timeUnitsDummyWithDays);
+    });
+
+    it('convert 3159318 seconds - max is months', () => {
+        expect(convertSecondsIntoTimeUnits(3159318)).toEqual(timeUnitsDummyWithMonths);
+    });
+
+    it('convert 73159318 seconds - max is years', () => {
+        expect(convertSecondsIntoTimeUnits(73159318)).toEqual(timeUnitsDummyWithYears);
     });
 });
