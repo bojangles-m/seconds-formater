@@ -1,23 +1,23 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import { RemainderDividendQuotient, IRemainderDividendQuotient } from './RemainderDividendQuotient';
+import { RemainderDividendQuotientHolder, IRemainderDividendQuotientHolder } from './RemainderDividendQuotient';
 
 export interface ITimeUnits {
-    seconds: IRemainderDividendQuotient;
-    minutes: IRemainderDividendQuotient;
-    hours: IRemainderDividendQuotient;
-    days: IRemainderDividendQuotient;
-    months: IRemainderDividendQuotient;
-    years: IRemainderDividendQuotient;
+    seconds: IRemainderDividendQuotientHolder;
+    minutes: IRemainderDividendQuotientHolder;
+    hours: IRemainderDividendQuotientHolder;
+    days: IRemainderDividendQuotientHolder;
+    months: IRemainderDividendQuotientHolder;
+    years: IRemainderDividendQuotientHolder;
 }
 
 export class TimeUnits implements ITimeUnits {
     constructor(
-        public seconds = new RemainderDividendQuotient(),
-        public minutes = new RemainderDividendQuotient(),
-        public hours = new RemainderDividendQuotient(),
-        public days = new RemainderDividendQuotient(),
-        public months = new RemainderDividendQuotient(),
-        public years = new RemainderDividendQuotient()
+        public seconds = new RemainderDividendQuotientHolder(),
+        public minutes = new RemainderDividendQuotientHolder(),
+        public hours = new RemainderDividendQuotientHolder(),
+        public days = new RemainderDividendQuotientHolder(),
+        public months = new RemainderDividendQuotientHolder(),
+        public years = new RemainderDividendQuotientHolder()
     ) {}
 }
