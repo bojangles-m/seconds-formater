@@ -1,6 +1,6 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import { isNumberInSeconds } from './utils';
+import { isNumberInSeconds, isPositiveIntegerNumberTooLong } from './utils';
 
 export interface ISecondsFormatter {
     convert: (value: number) => this;
@@ -38,9 +38,9 @@ export class SecondsFormatter implements ISecondsFormatter {
     }
 
     convert(value: number): this {
-        value = this.convertToPositiveInteger(value);
+        value = this.ifNumberIsNegativeRevert(value);
 
-        if (!isNumberInSeconds(value) || this.isNumberTooLong(value)) {
+        if (this.isProvidedIncorrectValue(value)) {
             throw new Error('The number should be positive or negative integer no longer then 15 chars!');
         }
 
@@ -48,16 +48,16 @@ export class SecondsFormatter implements ISecondsFormatter {
         return this;
     }
 
-    private convertToPositiveInteger(value: number): number {
+    private isProvidedIncorrectValue(value: number): boolean {
+        return !isNumberInSeconds(value) || isPositiveIntegerNumberTooLong(value);
+    }
+
+    private ifNumberIsNegativeRevert(value: number): number {
         if (value < 0) {
             this.isNumberNegative = true;
             return -value;
         }
         return value;
-    }
-
-    private isNumberTooLong(value: number): boolean {
-        return value.toString().length > 15;
     }
 
     format(format?: string): string {
