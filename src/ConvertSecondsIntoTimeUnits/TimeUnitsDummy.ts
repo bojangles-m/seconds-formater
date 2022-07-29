@@ -7,7 +7,7 @@ import { TimeUnits } from './TimeUnits';
 export const timeUnitsDummySeconds = new TimeUnits(new RemainderDividendQuotientHolder(50, 50, 0));
 
 // for 764 seconds
-export const timeUnitsDummyMinutes1 = new TimeUnits(
+export const timeUnitsDummyMinutes = new TimeUnits(
     new RemainderDividendQuotientHolder(44, 764, 12),
     new RemainderDividendQuotientHolder(12, 12, 0)
 );

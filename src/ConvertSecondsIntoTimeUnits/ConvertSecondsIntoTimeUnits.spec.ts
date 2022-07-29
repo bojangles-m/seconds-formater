@@ -3,7 +3,7 @@
 import { convertSecondsIntoTimeUnits } from './ConvertSecondsIntoTimeUnits';
 import {
     timeUnitsDummySeconds,
-    timeUnitsDummyMinutes1,
+    timeUnitsDummyMinutes,
     timeUnitsDummyMinutes2,
     timeUnitsDummyWithHours,
     timeUnitsDummyWithDays,
@@ -17,7 +17,7 @@ describe('convertSecondsIntoTimeUnits', () => {
     });
 
     it('convert 764, 1203 seconds - max is minutes', () => {
-        expect(convertSecondsIntoTimeUnits(764)).toEqual(timeUnitsDummyMinutes1);
+        expect(convertSecondsIntoTimeUnits(764)).toEqual(timeUnitsDummyMinutes);
         expect(convertSecondsIntoTimeUnits(1203)).toEqual(timeUnitsDummyMinutes2);
     });
 

@@ -10,7 +10,7 @@ export interface IConvertSecondsIntoTimeUnits {
 
 export const convertSecondsIntoTimeUnits = (seconds: number): ITimeUnits => {
     const timeUnits = new TimeUnits();
-    timeUnits.seconds = remainderDividendQuotient(Math.floor(seconds), 60);
+    timeUnits.seconds = remainderDividendQuotient(seconds, 60);
     timeUnits.minutes = remainderDividendQuotient(timeUnits.seconds.quotient, 60);
     timeUnits.hours = remainderDividendQuotient(timeUnits.minutes.quotient, 24);
     timeUnits.days = remainderDividendQuotient(timeUnits.hours.quotient, 30);

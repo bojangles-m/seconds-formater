@@ -1,11 +1,21 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
 import { addLeadingZeros } from './utils';
+import { ITimeUnits } from './ConvertSecondsIntoTimeUnits';
+
+export type Pattern = {
+    seconds: RegExp;
+    minutes: RegExp;
+    hours: RegExp;
+    days: RegExp;
+    months: RegExp;
+    years: RegExp;
+};
 
 export class PresentationFormat {
     private defaultFormat: string = 'HH:MM:SS';
-    private currentFormat: string;
-    private pattern = {
+    private presentationFormat: string;
+    private pattern: Pattern = {
         seconds: /SS|S/,
         minutes: /MM|M/,
         hours: /HH|H/,
@@ -13,26 +23,61 @@ export class PresentationFormat {
         months: /NN|N/,
         years: /YY|Y/,
     };
+    private lastKey;
 
-    constructor(private format?: string) {
-        this.currentFormat = format ?? this.defaultFormat;
+    constructor(private timeUnits: ITimeUnits, format?: string) {
+        this.presentationFormat = format ?? this.defaultFormat;
+        this.lastKey = this.adjustedTheLastUnit();
     }
 
-    public replaceSeconds = (seconds: number, format?: string) =>
-        this.replace(format ?? this.currentFormat, seconds, this.pattern.seconds);
-    public replaceMinutes = (minutes: number, format?: string) =>
-        this.replace(format ?? this.currentFormat, minutes, this.pattern.minutes);
-    public replaceHours = (hours: number, format?: string) =>
-        this.replace(format ?? this.currentFormat, hours, this.pattern.hours);
-    public replaceDays = (days: number, format?: string) =>
-        this.replace(format ?? this.currentFormat, days, this.pattern.days);
-    public replaceMonths = (months: number, format?: string) =>
-        this.replace(format ?? this.currentFormat, months, this.pattern.months);
-    public replaceYears = (years: number, format?: string) =>
-        this.replace(format ?? this.currentFormat, years, this.pattern.years);
+    public changeFormat(format: string) {
+        this.presentationFormat = format;
+        this.lastKey = this.adjustedTheLastUnit();
+        return this;
+    }
 
-    private replace(str: string, num: number, regex: RegExp) {
-        const m = str.match(regex);
-        return m === null ? str : str.replace(m[0], addLeadingZeros(num, m[0].length));
+    public transform(): string {
+        return this.replaceAllMatches(this.presentationFormat);
+    }
+
+    /**
+     * The last Unit is not converted
+     * Example:
+     *      [YY:NN:DD:HH:MM:SS] | 12345 => 00:00:00:03:25:45
+     *      [NN:DD:HH:MM:SS]    | 12345 => 00:00:03:25:45
+     *      [DD:HH:MM:SS]       | 12345 => 00:03:25:45
+     *      [HH:MM:SS]          | 12345 => 03:25:45
+     *      [MM:SS]             | 12345 => 205:45
+     *      [SS]                | 12345 => 12345
+     */
+    private adjustedTheLastUnit() {
+        for (const key of Object.keys(this.pattern).reverse()) {
+            if (this.pattern[key as keyof ITimeUnits].test(this.presentationFormat)) {
+                return key;
+            }
+        }
+
+        return 'seconds';
+    }
+
+    private replaceAllMatches(formattedString: string) {
+        for (let [key, regex] of Object.entries(this.pattern)) {
+            const timeUnit = this.timeUnits[key as keyof ITimeUnits];
+            const value = this.lastKey === key ? timeUnit.dividend : timeUnit.remainder;
+            formattedString = this.replacePatternFoundWithNumber(formattedString, value, regex);
+        }
+
+        return formattedString;
+    }
+
+    private replacePatternFoundWithNumber(formattedString: string, num: number, regex: RegExp) {
+        const matchedResult = formattedString.match(regex);
+        if (matchedResult === null) {
+            return formattedString;
+        }
+
+        const searchForMatch = matchedResult[0];
+        const totalLength = matchedResult[0].length;
+        return formattedString.replace(searchForMatch, addLeadingZeros(num, totalLength));
     }
 }
