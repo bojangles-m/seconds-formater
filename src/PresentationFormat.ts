@@ -23,7 +23,7 @@ export type Pattern = {
  *      [SS]                | 12345 => 12345
  */
 export class PresentationFormat {
-    private defaultFormat: string = 'HH:MM:SS';
+    private _defaultFormat: string = 'HH:MM:SS';
     private presentationFormat: string;
     private pattern: Pattern = {
         seconds: /SS|S/,
@@ -38,6 +38,10 @@ export class PresentationFormat {
     constructor(private timeUnits: ITimeUnits, format?: string) {
         this.presentationFormat = format ?? this.defaultFormat;
         this.lastKey = this.adjustedTheLastUnit();
+    }
+
+    get defaultFormat(): string {
+        return this._defaultFormat;
     }
 
     public changeFormat(format: string) {
