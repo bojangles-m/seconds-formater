@@ -12,6 +12,16 @@ export type Pattern = {
     years: RegExp;
 };
 
+/**
+ * The Formatted string
+ * Example:
+ *      [YY:NN:DD:HH:MM:SS] | 12345 => 00:00:00:03:25:45
+ *      [NN:DD:HH:MM:SS]    | 12345 => 00:00:03:25:45
+ *      [DD:HH:MM:SS]       | 12345 => 00:03:25:45
+ *      [HH:MM:SS]          | 12345 => 03:25:45
+ *      [MM:SS]             | 12345 => 205:45
+ *      [SS]                | 12345 => 12345
+ */
 export class PresentationFormat {
     private defaultFormat: string = 'HH:MM:SS';
     private presentationFormat: string;
@@ -40,16 +50,6 @@ export class PresentationFormat {
         return this.replaceAllMatches(this.presentationFormat);
     }
 
-    /**
-     * The last Unit is not converted
-     * Example:
-     *      [YY:NN:DD:HH:MM:SS] | 12345 => 00:00:00:03:25:45
-     *      [NN:DD:HH:MM:SS]    | 12345 => 00:00:03:25:45
-     *      [DD:HH:MM:SS]       | 12345 => 00:03:25:45
-     *      [HH:MM:SS]          | 12345 => 03:25:45
-     *      [MM:SS]             | 12345 => 205:45
-     *      [SS]                | 12345 => 12345
-     */
     private adjustedTheLastUnit() {
         for (const key of Object.keys(this.pattern).reverse()) {
             if (this.pattern[key as keyof ITimeUnits].test(this.presentationFormat)) {
