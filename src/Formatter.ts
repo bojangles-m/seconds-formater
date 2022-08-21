@@ -2,6 +2,7 @@
 
 import { addLeadingZeros } from './utils';
 import { ITimeUnits } from './ConvertSecondsIntoTimeUnits';
+import { DEFAULT_FORMAT } from './defaultFormat';
 
 export type Pattern = {
     seconds: RegExp;
@@ -23,8 +24,7 @@ export type Pattern = {
  *      [SS]                | 12345 => 12345
  *      [S]                 | 12345 => 12345
  */
-export class PresentationFormat {
-    private _defaultFormat: string = 'HH:MM:SS';
+export class Formatter {
     private presentationFormat: string;
     private pattern: Pattern = {
         seconds: /SS|S/,
@@ -37,12 +37,8 @@ export class PresentationFormat {
     private lastKey;
 
     constructor(private timeUnits: ITimeUnits, format?: string) {
-        this.presentationFormat = format ?? this.defaultFormat;
+        this.presentationFormat = format ?? DEFAULT_FORMAT;
         this.lastKey = this.adjustedTheLastUnit();
-    }
-
-    get defaultFormat(): string {
-        return this._defaultFormat;
     }
 
     public changeFormat(format: string) {

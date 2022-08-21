@@ -1,7 +1,7 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
 import { convertSecondsIntoTimeUnits, ITimeUnits } from './ConvertSecondsIntoTimeUnits';
-import { PresentationFormat } from './PresentationFormat';
+import { Formatter } from './Formatter';
 import { isNumberInSeconds, isIntegerTooLong } from './utils';
 import { DEFAULT_FORMAT } from './defaultFormat';
 
@@ -48,6 +48,6 @@ export class SecondsFormatter implements ISecondsFormatter {
             throw new Error('Please provide the value in seconds to be converted!');
         }
 
-        return new PresentationFormat(this.valueInTimeUnits, format ?? this.currentFormat).transform();
+        return new Formatter(this.valueInTimeUnits, format ?? this.currentFormat).transform();
     }
 }
