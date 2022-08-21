@@ -1,6 +1,6 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import sf, { SecondsFormatter } from './index';
+import sf, { SecondsFormatter } from './';
 
 const formats = [
     'S',

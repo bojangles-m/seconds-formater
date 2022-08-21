@@ -1,9 +1,8 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import { convertSecondsIntoTimeUnits, ITimeUnits } from './ConvertSecondsIntoTimeUnits';
-import { Formatter } from './Formatter';
-import { isNumberInSeconds, isIntegerTooLong } from './utils';
-import { DEFAULT_FORMAT } from './Formatter';
+import { convertSecondsIntoTimeUnits, ITimeUnits } from '../ConvertSecondsIntoTimeUnits';
+import { Formatter, DEFAULT_FORMAT } from '../Formatter';
+import { isNumberInSeconds, isIntegerTooLong } from '../utils';
 
 export interface ISecondsFormatter {
     convert: (value: number) => this;
