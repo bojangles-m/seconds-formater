@@ -1,7 +1,7 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
 import { Formatter } from './Formatter';
-import { timeUnitsDummyMinutes, timeUnitsDummyWithMonths } from './ConvertSecondsIntoTimeUnits/TimeUnitsDummy';
+import { timeUnitsDummyMinutes, timeUnitsDummyWithMonths } from '../ConvertSecondsIntoTimeUnits/TimeUnitsDummy';
 
 describe('PresentationFormat', () => {
     it('presents 764 in different formats', () => {

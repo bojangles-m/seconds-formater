@@ -2,6 +2,6 @@
 
 import { SecondsFormatter } from './SecondsFormatter';
 
-export * from './defaultFormat';
+export * from './Formatter';
 export { SecondsFormatter } from './SecondsFormatter';
 export default new SecondsFormatter();

@@ -1,7 +1,7 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
-import { addLeadingZeros } from './utils';
-import { ITimeUnits } from './ConvertSecondsIntoTimeUnits';
+import { addLeadingZeros } from '../utils';
+import { ITimeUnits } from '../ConvertSecondsIntoTimeUnits';
 import { DEFAULT_FORMAT } from './defaultFormat';
 
 export type Pattern = {

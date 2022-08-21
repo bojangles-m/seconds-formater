@@ -3,7 +3,7 @@
 import { convertSecondsIntoTimeUnits, ITimeUnits } from './ConvertSecondsIntoTimeUnits';
 import { Formatter } from './Formatter';
 import { isNumberInSeconds, isIntegerTooLong } from './utils';
-import { DEFAULT_FORMAT } from './defaultFormat';
+import { DEFAULT_FORMAT } from './Formatter';
 
 export interface ISecondsFormatter {
     convert: (value: number) => this;
