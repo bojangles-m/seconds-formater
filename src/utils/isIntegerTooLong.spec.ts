@@ -2,7 +2,7 @@
 
 import { isIntegerTooLong } from './isIntegerTooLong';
 
-describe('isIntegerNumberTooLong', () => {
+describe('isIntegerTooLong', () => {
     it('is too long', () => {
         expect(isIntegerTooLong(1234512345123451)).toBeTruthy();
         expect(isIntegerTooLong(387128372987789712)).toBeTruthy();
