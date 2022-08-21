@@ -13,7 +13,6 @@ export interface ISecondsFormatter {
 }
 
 export class SecondsFormatter implements ISecondsFormatter {
-    // private value: number = 0;
     private valueInTimeUnits: ITimeUnits | undefined;
     private currentFormat: string = DEFAULT_FORMAT;
 
@@ -36,7 +35,6 @@ export class SecondsFormatter implements ISecondsFormatter {
             throw new Error('The number should be positive or negative integer no longer then 15 chars!');
         }
 
-        // this.value = value;
         this.valueInTimeUnits = convertSecondsIntoTimeUnits(value);
         return this;
     }
@@ -50,6 +48,6 @@ export class SecondsFormatter implements ISecondsFormatter {
             throw new Error('Please provide the value in seconds to be converted!');
         }
 
-        return new PresentationFormat(this.valueInTimeUnits, format).transform();
+        return new PresentationFormat(this.valueInTimeUnits, format ?? this.currentFormat).transform();
     }
 }

@@ -5,7 +5,7 @@ import { DEFAULT_FORMAT } from './defaultFormat';
 
 // const seconds = [1143, 8734, 111, 65423, 783];
 
-const seconds = [7, 32, 60, 451, 1518, 9518, 119518, 3159318, 73159318];
+// const seconds = [7, 32, 60, 451, 1518, 9518, 119518, 3159318, 73159318];
 const formats = [
     'S',
     'SS',
@@ -61,21 +61,20 @@ describe('SecondsFormatter::change - throws error if no string provided', () => 
 
 describe('SecondsFormatter - default format', () => {
     it(`represents seconds in default format`, () => {
-        // 7, 32, 60, 451, 1518, 9518, 119518, 3159318, 73159318;
         sf.reset();
-        expect(sf.convert(seconds[0]).format()).toEqual('00:00:07');
-        expect(sf.convert(seconds[1]).format()).toEqual('00:00:32');
-        expect(sf.convert(seconds[2]).format()).toEqual('00:01:00');
-        expect(sf.convert(seconds[3]).format()).toEqual('00:07:31');
-        expect(sf.convert(seconds[4]).format()).toEqual('00:25:18');
-        expect(sf.convert(seconds[5]).format()).toEqual('02:38:38');
-        expect(sf.convert(seconds[6]).format()).toEqual('33:11:58');
-        expect(sf.convert(seconds[7]).format()).toEqual('877:35:18');
-        expect(sf.convert(seconds[8]).format()).toEqual('20322:01:58');
+        expect(sf.convert(7).format()).toEqual('00:00:07');
+        expect(sf.convert(32).format()).toEqual('00:00:32');
+        expect(sf.convert(60).format()).toEqual('00:01:00');
+        expect(sf.convert(451).format()).toEqual('00:07:31');
+        expect(sf.convert(1518).format()).toEqual('00:25:18');
+        expect(sf.convert(9518).format()).toEqual('02:38:38');
+        expect(sf.convert(119518).format()).toEqual('33:11:58');
+        expect(sf.convert(3159318).format()).toEqual('877:35:18');
+        expect(sf.convert(73159318).format()).toEqual('20322:01:58');
     });
 });
 
-describe('SecondsFormatter - method format with passed new format', () => {
+describe('SecondsFormatter::format - with different formats', () => {
     it(`represents 7 seconds in different formats`, () => {
         const seconds = 7;
         sf.reset();
@@ -172,34 +171,62 @@ describe('SecondsFormatter - method format with passed new format', () => {
     });
 });
 
-// describe('SecondsFormatter - method change', () => {
-//     it(`represents seconds in format: first change`, () => {
-//         expect(sf.convert(seconds[0]).change('first change').format()).toEqual(
-//             `format: first change of value ${seconds[0]}`
-//         );
-//     });
+describe('SecondsFormatter::change', () => {
+    it(`represents seconds default format`, () => {
+        sf.reset();
+        expect(sf.convert(7).format()).toEqual('00:00:07');
+    });
 
-//     it(`represents seconds in format: second change`, () => {
-//         expect(sf.convert(seconds[0]).change('second change').format()).toEqual(
-//             `format: second change of value ${seconds[0]}`
-//         );
-//     });
-// });
+    it(`represents seconds in format: -M:SS`, () => {
+        sf.change('-M:SS');
+        expect(sf.convert(7).format()).toEqual('-0:07');
+        expect(sf.convert(32).format()).toEqual('-0:32');
+        expect(sf.convert(60).format()).toEqual('-1:00');
+        expect(sf.convert(451).format()).toEqual('-7:31');
+        expect(sf.convert(1518).format()).toEqual('-25:18');
+    });
 
-// describe('SecondsFormatter - reset to default format', () => {
-//     const newFormat = 'AA:BB';
+    it(`represents seconds in format: MM:SS`, () => {
+        sf.change('MM:SS');
+        expect(sf.convert(7).format()).toEqual('00:07');
+        expect(sf.convert(32).format()).toEqual('00:32');
+        expect(sf.convert(60).format()).toEqual('01:00');
+        expect(sf.convert(451).format()).toEqual('07:31');
+        expect(sf.convert(1518).format()).toEqual('25:18');
+        expect(sf.convert(9518).format()).toEqual('158:38');
+    });
 
-//     it(`represents seconds in new format`, () => {
-//         sf.change(newFormat);
+    it(`represents seconds in format: MM:SS`, () => {
+        sf.change('H:MM:SS');
+        expect(sf.convert(7).format()).toEqual('0:00:07');
+        expect(sf.convert(32).format()).toEqual('0:00:32');
+        expect(sf.convert(60).format()).toEqual('0:01:00');
+        expect(sf.convert(451).format()).toEqual('0:07:31');
+        expect(sf.convert(1518).format()).toEqual('0:25:18');
+        expect(sf.convert(9518).format()).toEqual('2:38:38');
+        expect(sf.convert(119518).format()).toEqual('33:11:58');
+    });
+});
 
-//         expect(sf.convert(seconds[0]).format()).toEqual(`format: ${newFormat} of value ${seconds[0]}`);
-//         expect(sf.convert(seconds[1]).format()).toEqual(`format: ${newFormat} of value ${seconds[1]}`);
-//     });
+describe('SecondsFormatter::reset - to default format', () => {
+    sf.change('-M:SS');
+    expect(sf.convert(7).format()).toEqual('-0:07');
+    expect(sf.convert(7).reset().format()).toEqual('00:00:07');
 
-//     it(`resets and represents seconds in default format`, () => {
-//         sf.reset();
+    sf.change('MM:SS');
+    expect(sf.convert(32).format()).toEqual('00:32');
+    expect(sf.convert(32).reset().format()).toEqual('00:00:32');
 
-//         expect(sf.convert(seconds[0]).format()).toEqual(`format: ${format[0]} of value ${seconds[0]}`);
-//         expect(sf.convert(seconds[1]).format()).toEqual(`format: ${format[0]} of value ${seconds[1]}`);
-//     });
-// });
+    sf.change('H:MM:SS');
+    expect(sf.convert(60).format()).toEqual('0:01:00');
+    sf.reset();
+    expect(sf.convert(60).format()).toEqual('00:01:00');
+
+    sf.change('D:HH:MM:SS');
+    expect(sf.convert(9518).format()).toEqual('0:02:38:38');
+    expect(sf.reset().convert(9518).format()).toEqual('02:38:38');
+
+    sf.change('-N:DD:HH:MM:SS');
+    expect(sf.convert(119518).format()).toEqual('-0:01:09:11:58');
+    expect(sf.reset().convert(119518).format()).toEqual('33:11:58');
+});
