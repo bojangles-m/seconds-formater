@@ -2,7 +2,7 @@
 
 import { convertSecondsIntoTimeUnits, ITimeUnits } from './ConvertSecondsIntoTimeUnits';
 import { PresentationFormat } from './PresentationFormat';
-import { isNumberInSeconds, isPositiveIntegerNumberTooLong } from './utils';
+import { isNumberInSeconds, isIntegerTooLong } from './utils';
 import { DEFAULT_FORMAT } from './defaultFormat';
 
 export interface ISecondsFormatter {
@@ -31,7 +31,7 @@ export class SecondsFormatter implements ISecondsFormatter {
     }
 
     convert(value: number): this {
-        if (this.isProvidedIncorrectValue(value)) {
+        if (this.isIncorrectValue(value)) {
             throw new Error('The number should be positive or negative integer no longer then 15 chars!');
         }
 
@@ -39,8 +39,8 @@ export class SecondsFormatter implements ISecondsFormatter {
         return this;
     }
 
-    private isProvidedIncorrectValue(value: number): boolean {
-        return !isNumberInSeconds(value) || isPositiveIntegerNumberTooLong(value);
+    private isIncorrectValue(value: number): boolean {
+        return !isNumberInSeconds(value) || isIntegerTooLong(value);
     }
 
     format(format?: string): string {

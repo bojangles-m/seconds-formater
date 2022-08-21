@@ -49,5 +49,5 @@ export const timeUnitsDummyWithYears = new TimeUnits(
     new RemainderDividendQuotientHolder(18, 20322, 846),
     new RemainderDividendQuotientHolder(6, 846, 28),
     new RemainderDividendQuotientHolder(4, 28, 2),
-    new RemainderDividendQuotientHolder(2, 0, 0)
+    new RemainderDividendQuotientHolder(2, 2, 0)
 );

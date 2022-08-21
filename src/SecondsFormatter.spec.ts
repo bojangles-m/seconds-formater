@@ -1,11 +1,7 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
 import sf, { SecondsFormatter } from './index';
-import { DEFAULT_FORMAT } from './defaultFormat';
 
-// const seconds = [1143, 8734, 111, 65423, 783];
-
-// const seconds = [7, 32, 60, 451, 1518, 9518, 119518, 3159318, 73159318];
 const formats = [
     'S',
     'SS',
@@ -229,4 +225,28 @@ describe('SecondsFormatter::reset - to default format', () => {
     sf.change('-N:DD:HH:MM:SS');
     expect(sf.convert(119518).format()).toEqual('-0:01:09:11:58');
     expect(sf.reset().convert(119518).format()).toEqual('33:11:58');
+});
+
+describe('SecondsFormatter - long integer seconds in format YY:NN:DD:HH:MM:SS', () => {
+    const format = 'YY:NN:DD:HH:MM:SS';
+    expect(sf.convert(273159318).format(format)).toBe('08:09:11:13:35:18'); // 9 digits
+    expect(sf.convert(1173159318).format(format)).toBe('37:08:18:05:35:18'); // 10 digits
+    expect(sf.convert(3173159318).format(format)).toBe('102:00:06:09:08:38'); // 10 digits
+    expect(sf.convert(73173159318).format(format)).toBe('2352:06:11:13:35:18'); // 11 digits
+});
+
+describe('SecondsFormatter - seconds in different text decorations', () => {
+    expect(sf.convert(73159318).format('YY years NN month DD days HH hours MM min SS s')).toBe(
+        '02 years 04 month 06 days 18 hours 01 min 58 s'
+    );
+    expect(sf.convert(73159318).format('Y years N month D days HH hours M min S s')).toBe(
+        '2 years 4 month 6 days 18 hours 1 min 58 s'
+    );
+    expect(sf.convert(3159318).format('N month D days HH hours M min S s')).toBe('1 month 6 days 13 hours 35 min 18 s');
+    expect(sf.convert(119518).format('D day HH hours M min S s')).toBe('1 day 09 hours 11 min 58 s');
+    expect(sf.convert(119518).format('DDday Hhours Mmin Ss')).toBe('01day 9hours 11min 58s');
+    expect(sf.convert(119518).format('Dday Hhours Mmin Ss')).toBe('1day 9hours 11min 58s');
+    expect(sf.convert(119518).format('H hours M min S sec')).toBe('33 hours 11 min 58 sec');
+    expect(sf.convert(119518).format('M min S sec')).toBe('1991 min 58 sec');
+    expect(sf.convert(119518).format('S sec')).toBe('119518 sec');
 });

@@ -3,4 +3,4 @@
 export * from './addLeadingZeros';
 export * from './isNegativeNumber';
 export * from './isNumberInSeconds';
-export * from './isPositiveIntegerNumberTooLong';
+export * from './isIntegerTooLong';
