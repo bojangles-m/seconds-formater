@@ -1,6 +1,9 @@
 /* (c) Copyright Bojan Mazej, all rights reserved. */
 
+import { convertSecondsIntoTimeUnits, ITimeUnits } from './ConvertSecondsIntoTimeUnits';
+import { PresentationFormat } from './PresentationFormat';
 import { isNumberInSeconds, isPositiveIntegerNumberTooLong } from './utils';
+import { DEFAULT_FORMAT } from './defaultFormat';
 
 export interface ISecondsFormatter {
     convert: (value: number) => this;
@@ -10,21 +13,12 @@ export interface ISecondsFormatter {
 }
 
 export class SecondsFormatter implements ISecondsFormatter {
-    private value: number = 0;
-    private _defaultFormat: string = 'HH:MM:SS';
-    private currentFormat: string;
-    private isNumberNegative: boolean = false;
-
-    constructor() {
-        this.currentFormat = this.defaultFormat;
-    }
-
-    get defaultFormat(): string {
-        return this._defaultFormat;
-    }
+    // private value: number = 0;
+    private valueInTimeUnits: ITimeUnits | undefined;
+    private currentFormat: string = DEFAULT_FORMAT;
 
     reset(): this {
-        this.currentFormat = this.defaultFormat;
+        this.currentFormat = DEFAULT_FORMAT;
         return this;
     }
 
@@ -38,13 +32,12 @@ export class SecondsFormatter implements ISecondsFormatter {
     }
 
     convert(value: number): this {
-        value = this.ifNumberIsNegativeRevert(value);
-
         if (this.isProvidedIncorrectValue(value)) {
             throw new Error('The number should be positive or negative integer no longer then 15 chars!');
         }
 
-        this.value = value;
+        // this.value = value;
+        this.valueInTimeUnits = convertSecondsIntoTimeUnits(value);
         return this;
     }
 
@@ -52,15 +45,11 @@ export class SecondsFormatter implements ISecondsFormatter {
         return !isNumberInSeconds(value) || isPositiveIntegerNumberTooLong(value);
     }
 
-    private ifNumberIsNegativeRevert(value: number): number {
-        if (value < 0) {
-            this.isNumberNegative = true;
-            return -value;
-        }
-        return value;
-    }
-
     format(format?: string): string {
-        return `format: ${format ?? this.currentFormat} of value ${this.value}`;
+        if (!this.valueInTimeUnits) {
+            throw new Error('Please provide the value in seconds to be converted!');
+        }
+
+        return new PresentationFormat(this.valueInTimeUnits, format).transform();
     }
 }

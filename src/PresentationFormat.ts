@@ -21,6 +21,7 @@ export type Pattern = {
  *      [HH:MM:SS]          | 12345 => 03:25:45
  *      [MM:SS]             | 12345 => 205:45
  *      [SS]                | 12345 => 12345
+ *      [S]                 | 12345 => 12345
  */
 export class PresentationFormat {
     private _defaultFormat: string = 'HH:MM:SS';

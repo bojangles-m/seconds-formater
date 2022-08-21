@@ -15,6 +15,6 @@ export const convertSecondsIntoTimeUnits = (seconds: number): ITimeUnits => {
     timeUnits.hours = remainderDividendQuotient(timeUnits.minutes.quotient, 24);
     timeUnits.days = remainderDividendQuotient(timeUnits.hours.quotient, 30);
     timeUnits.months = remainderDividendQuotient(timeUnits.days.quotient, 12);
-    timeUnits.years = new RemainderDividendQuotientHolder(timeUnits.months.quotient);
+    timeUnits.years = new RemainderDividendQuotientHolder(timeUnits.months.quotient, timeUnits.months.quotient);
     return timeUnits;
 };
