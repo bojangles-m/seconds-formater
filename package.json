@@ -2,10 +2,10 @@
     "name": "seconds-formater",
     "version": "1.2.1",
     "description": "Representing seconds in pretty time format",
-    "main": "lib/index.js",
-    "types": "./lib/index.d.ts",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "files": [
-        "lib/**"
+        "dist/**"
     ],
     "keywords": [
         "seconds",
@@ -19,12 +19,14 @@
     },
     "license": "MIT",
     "scripts": {
-        "test": "jest",
-        "dev": "npx ts-node -T src/index.ts",
         "build": "npm run clear & npm run build:project",
         "build:project": "npx tsc --project tsconfig.build.json",
-        "clear": "rm -rf ./lib",
-        "pack": "npm pack"
+        "clear": "rm -rf ./dist & rm *.tgz",
+        "compile": "npm run clear & npm run compile:project",
+        "compile:project": "tsc --project tsconfig.compile.json",
+        "dev": "npx ts-node -T src/index.ts",
+        "pack": "npm pack",
+        "test": "jest"
     },
     "repository": {
         "type": "git",

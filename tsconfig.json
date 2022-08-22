@@ -8,9 +8,7 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
-        "declaration": true,
-        "target": "ES5",
-        "outDir": "./lib"
+        "target": "ES5"
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist"]
