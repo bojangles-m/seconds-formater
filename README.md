@@ -2,10 +2,15 @@
 
 Convert seconds into a formatted string from days to months to years.
 
+Now supports TypeScript
+
 ## Install
 
 ```js
 $ npm i seconds-formater
+
+// OR
+$ pnpm add seconds-formater
 
 // OR
 $ yarn add seconds-formater
@@ -113,7 +118,6 @@ sf.convert(3159318).format('N month D days HH hours M min S s'); // 1 month 6 da
 
 sf.convert(73159318).format('YY:NN:DD:HH:MM:SS'); // 02:04:06:18:01:58
 sf.convert(73159318).format('Y years N month D days HH hours M min S s'); // 2 years 4 month 6 days 18 hours 1 min 58 s
-
 ```
 
 ## License
