@@ -8,8 +8,10 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
-        "target": "ES5"
+        "target": "ES5",
+        "declaration": true,
+        "outDir": "./dist"
     },
     "include": ["src"],
-    "exclude": ["node_modules", "dist"]
+    "exclude": ["node_modules", "dist", "src/**/*.spec.ts"]
 }
