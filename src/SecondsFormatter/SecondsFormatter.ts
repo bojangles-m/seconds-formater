@@ -12,8 +12,9 @@ export interface ISecondsFormatter {
 }
 
 export class SecondsFormatter implements ISecondsFormatter {
-    private valueInTimeUnits: ITimeUnits | undefined;
+    private valueInTimeUnits: ITimeUnits = convertSecondsIntoTimeUnits(0);
     private currentFormat: string = DEFAULT_FORMAT;
+    private isNegativeValue: boolean = false;
 
     reset(): this {
         this.currentFormat = DEFAULT_FORMAT;
@@ -21,20 +22,20 @@ export class SecondsFormatter implements ISecondsFormatter {
     }
 
     change(format: string): this {
-        if (!format || typeof format !== 'string' || format.replace(/\s/g, '').toString().length === 0) {
-            throw new Error('The provided format is not a string!');
-        }
-
-        this.currentFormat = format;
+        this.currentFormat = this.checkFormat(format) ?? this.currentFormat;
         return this;
     }
 
     convert(value: number): this {
         if (this.isIncorrectValue(value)) {
-            throw new Error('The number should be positive or negative integer no longer then 15 chars!');
+            throw new Error(
+                'The number should be positive or negative integer "no decimal!" and no longer then 15 numbers!',
+            );
         }
 
-        this.valueInTimeUnits = convertSecondsIntoTimeUnits(value);
+        const newValue = this.transformIfNegativeValue(value);
+
+        this.valueInTimeUnits = convertSecondsIntoTimeUnits(newValue);
         return this;
     }
 
@@ -42,11 +43,31 @@ export class SecondsFormatter implements ISecondsFormatter {
         return !isNumberInSeconds(value) || isIntegerTooLong(value);
     }
 
-    format(format?: string): string {
-        if (!this.valueInTimeUnits) {
-            throw new Error('Please provide the value in seconds to be converted!');
+    private transformIfNegativeValue(value: number): number {
+        this.isNegativeValue = false;
+        if (value >= 0) {
+            return value;
         }
 
-        return new Formatter(this.valueInTimeUnits, format ?? this.currentFormat).transform();
+        this.isNegativeValue = true;
+        return -value;
+    }
+
+    format(format?: string): string {
+        return new Formatter(this.valueInTimeUnits, this.checkFormat(format) ?? this.currentFormat).transform(
+            this.isNegativeValue ? '-' : '',
+        );
+    }
+
+    private checkFormat(format: string | undefined): string | undefined {
+        if (format && !this.isCorrectFormat(format)) {
+            throw new Error(`The provided format [ '${format}' ] is not a string!`);
+        }
+
+        return format;
+    }
+
+    private isCorrectFormat(format: string): boolean {
+        return !(!format || typeof format !== 'string' || format.replace(/\s/g, '').toString().length === 0);
     }
 }

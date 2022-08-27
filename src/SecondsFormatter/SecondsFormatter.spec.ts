@@ -28,7 +28,7 @@ describe('SecondsFormatter Object', () => {
 });
 
 describe('SecondsFormatter::convert - throws error on wrong value', () => {
-    it('is incorrect value to convert', () => {
+    it('is incorrect value', () => {
         expect(() => sf.convert(11.1)).toThrow(Error);
         expect(() => sf.convert(11e23)).toThrow(Error);
         expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
@@ -37,11 +37,22 @@ describe('SecondsFormatter::convert - throws error on wrong value', () => {
         expect(() => sf.convert(-1234512345123451)).toThrow(Error);
     });
 
-    it('is correct value to convert', () => {
+    it('is correct value', () => {
         expect(() => sf.convert(-123)).not.toThrow(Error);
         expect(() => sf.convert(-123451234512345)).not.toThrow(Error);
         expect(() => sf.convert(123451234512345)).not.toThrow(Error);
         expect(() => sf.convert(0)).not.toThrow(Error);
+    });
+
+    it('is incorrect value - decimal value', () => {
+        expect(() => sf.convert(-123.123)).toThrow(Error);
+    });
+
+    it('converts negative numbers', () => {
+        expect(sf.convert(-1518).format()).toEqual('-00:25:18');
+        expect(sf.convert(-9518).format()).toEqual('-02:38:38');
+        expect(sf.convert(-119518).format()).toEqual('-33:11:58');
+        expect(sf.convert(-3159318).format()).toEqual('-877:35:18');
     });
 });
 
@@ -67,6 +78,13 @@ describe('SecondsFormatter - default format', () => {
         expect(sf.convert(119518).format()).toEqual('33:11:58');
         expect(sf.convert(3159318).format()).toEqual('877:35:18');
         expect(sf.convert(73159318).format()).toEqual('20322:01:58');
+    });
+
+    it('represents decimal value in default format and rounds decimals', () => {
+        expect(sf.convert(Math.floor(-1518.654)).format()).toEqual('-00:25:19');
+        expect(sf.convert(Math.floor(-9518.5464567)).format()).toEqual('-02:38:39');
+        expect(sf.convert(Math.floor(-119518.567)).format()).toEqual('-33:11:59');
+        expect(sf.convert(Math.floor(-3159318.123)).format()).toEqual('-877:35:19');
     });
 });
 
@@ -237,10 +255,10 @@ describe('SecondsFormatter - long integer seconds in format YY:NN:DD:HH:MM:SS', 
 
 describe('SecondsFormatter - seconds in different text decorations', () => {
     expect(sf.convert(73159318).format('YY years NN month DD days HH hours MM min SS s')).toBe(
-        '02 years 04 month 06 days 18 hours 01 min 58 s'
+        '02 years 04 month 06 days 18 hours 01 min 58 s',
     );
     expect(sf.convert(73159318).format('Y years N month D days HH hours M min S s')).toBe(
-        '2 years 4 month 6 days 18 hours 1 min 58 s'
+        '2 years 4 month 6 days 18 hours 1 min 58 s',
     );
     expect(sf.convert(3159318).format('N month D days HH hours M min S s')).toBe('1 month 6 days 13 hours 35 min 18 s');
     expect(sf.convert(119518).format('D day HH hours M min S s')).toBe('1 day 09 hours 11 min 58 s');

@@ -47,8 +47,8 @@ export class Formatter {
         return this;
     }
 
-    public transform(): string {
-        return this.replaceAllMatches(this.presentationFormat);
+    public transform(prefix = ''): string {
+        return `${prefix}${this.replaceAllMatches(this.presentationFormat)}`;
     }
 
     private adjustedTheLastUnit() {
