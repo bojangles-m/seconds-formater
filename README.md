@@ -1,4 +1,4 @@
-# Seconds Formater
+# Seconds Formatter
 
 Convert seconds into a formatted string from days to months to years.
 

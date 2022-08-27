@@ -13,7 +13,8 @@
         "seconds",
         "format",
         "convert",
-        "time"
+        "time",
+        "formatter"
     ],
     "author": {
         "name": "Bojan Mazej",
