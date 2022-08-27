@@ -2,7 +2,6 @@
 
 import { convertSecondsIntoTimeUnits, ITimeUnits } from '../ConvertSecondsIntoTimeUnits';
 import { Formatter, DEFAULT_FORMAT } from '../Formatter';
-import { isNumberInSeconds, isIntegerTooLong } from '../utils';
 
 export interface ISecondsFormatter {
     convert: (value: number) => this;
@@ -27,23 +26,21 @@ export class SecondsFormatter implements ISecondsFormatter {
     }
 
     convert(value: number): this {
-        if (this.isIncorrectValue(value)) {
-            throw new Error(
-                'The number should be positive or negative integer "no decimal!" and no longer then 15 numbers!',
-            );
-        }
-
-        const newValue = this.transformIfNegativeValue(value);
-
-        this.valueInTimeUnits = convertSecondsIntoTimeUnits(newValue);
+        this.valueInTimeUnits = convertSecondsIntoTimeUnits(this.validateTheValue(value));
         return this;
     }
 
-    private isIncorrectValue(value: number): boolean {
-        return !isNumberInSeconds(value) || isIntegerTooLong(value);
+    private validateTheValue(value: number | string): number {
+        let newValue = parseInt(`${value}`);
+
+        if (isNaN(newValue)) {
+            throw new Error('The value should be integer number!');
+        }
+
+        return this.checkForNegativeValue(newValue);
     }
 
-    private transformIfNegativeValue(value: number): number {
+    private checkForNegativeValue(value: number): number {
         this.isNegativeValue = false;
         if (value >= 0) {
             return value;

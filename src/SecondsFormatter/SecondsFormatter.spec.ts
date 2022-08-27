@@ -27,25 +27,19 @@ describe('SecondsFormatter Object', () => {
     });
 });
 
-describe('SecondsFormatter::convert - throws error on wrong value', () => {
-    it('is incorrect value', () => {
-        expect(() => sf.convert(11.1)).toThrow(Error);
-        expect(() => sf.convert(11e23)).toThrow(Error);
-        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
-        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
-        expect(() => sf.convert(1234512345123451234512345)).toThrow(Error);
-        expect(() => sf.convert(-1234512345123451)).toThrow(Error);
-    });
-
+describe('SecondsFormatter::convert - throws error if value cant be parseInt', () => {
     it('is correct value', () => {
+        expect(() => sf.convert(11.1)).not.toThrow(Error);
+        expect(sf.convert(11.1).format('SS')).toEqual('11');
+        expect(() => sf.convert(11e23)).not.toThrow(Error);
+        expect(() => sf.convert(1234512345123451234512345)).not.toThrow(Error);
+        expect(() => sf.convert(-1234512345123451)).not.toThrow(Error);
+        expect(sf.convert(-1234512345123451).format('S')).toEqual('-1234512345123451');
         expect(() => sf.convert(-123)).not.toThrow(Error);
         expect(() => sf.convert(-123451234512345)).not.toThrow(Error);
         expect(() => sf.convert(123451234512345)).not.toThrow(Error);
         expect(() => sf.convert(0)).not.toThrow(Error);
-    });
-
-    it('is incorrect value - decimal value', () => {
-        expect(() => sf.convert(-123.123)).toThrow(Error);
+        expect(() => sf.convert(-123.123)).not.toThrow(Error);
     });
 
     it('converts negative numbers', () => {

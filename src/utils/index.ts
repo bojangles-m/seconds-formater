@@ -2,5 +2,3 @@
 
 export * from './addLeadingZeros';
 export * from './isNegativeNumber';
-export * from './isNumberInSeconds';
-export * from './isIntegerTooLong';
